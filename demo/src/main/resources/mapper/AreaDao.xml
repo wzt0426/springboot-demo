@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micky.demo.dao.AreaDao">
+    <select id="queryArea"  resultType="com.micky.demo.entity.Area">
+        select area_id, area_name,is_delete,priority from tb_area order by priority DESC
+    </select>
+
+    <select id="queryAreaById"  resultType="com.micky.demo.entity.Area">
+        select area_id, area_name,is_delete,priority from tb_area WHERE  area_id = #{areaId}
+    </select>
+    <insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId" keyColumn="area_id" parameterType="com.micky.demo.entity.Area">
+        INSERT INTO tb_area(area_name,is_delete,priority) VALUES  (#{areaName}, #{isDelete}, #{priority})
+    </insert>
+    
+    <update id="updateArea" parameterType="com.micky.demo.entity.Area" >
+        update  tb_area
+        <trim prefix="set" suffixOverrides=",">
+            <if test="areaName!=null" >area_name=#{areaName},</if>
+            <if test="isDelete!=null" >is_delete=#{isDelete},</if>
+            <if test="priority!=null" >priority=#{priority},</if>
+        </trim>
+        where area_id = #{areaId}
+    </update>
+</mapper>
